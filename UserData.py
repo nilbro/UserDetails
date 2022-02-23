@@ -38,6 +38,7 @@ def accessData():
 
 
 def createConnection():
+    
     con = sqlite3.connect('example.db')
     cur = con.cursor()
     return con,cur
