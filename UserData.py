@@ -4,8 +4,8 @@ import json
 import sqlite3
 
 def authoriseData():
-#this function performs basic authentication with Client Id and Client Secret and username and password as header parameters
-#and returns access token and refresh token 
+#this function performs basic authentication with Client Id and Client Secret obtained from the application website and username and password as header parameters
+#It returns access token and refresh token 
  
 
     url = "https://coyotraining.coyocloud.com/api/oauth/token?grant_type=password&username=RL&password=demo"
@@ -38,11 +38,13 @@ def accessData():
 accessData()
 
 
+ 
 y=json.loads(response.text)
+#response recieved from server is converted to json
 print(y)
 x=y["content"]
 
-for i in range(len(x)):
+for i in range(len(x)):    #printing user, email and lastLogin details. Exception handling for unknown lastLogin value
     displayname=x[i]["displayName"]
     email=x[i]["email"]
     try:
@@ -51,11 +53,11 @@ for i in range(len(x)):
         lastlogin=0
     print(displayname,email,lastlogin)
 
- # we are connecting to SQLLite database and putting user, email and lastlogin details into the database
+ # Connecting to SQLLite database and putting user, email and lastlogin details into the database
 con = sqlite3.connect('example.db')
 cur = con.cursor()
 
-# Create table
+# Table created with column names
 cur.execute('''CREATE TABLE Userdetails
                (username text, email text, lastlogin real)''')
 
